@@ -1,0 +1,35 @@
+*{
+    font-family: fantasy;
+}
+
+/* HTML TAGS */
+h1{
+    font-size: 32px;
+}
+
+body{
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas{
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+/* ID List */
+
+
+/* Class List */
+
+.flex{
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
