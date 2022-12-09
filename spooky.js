@@ -103,14 +103,12 @@ for (let i = 0; i < collisionArray.length; i++){
 }
 
 let testBounds = [];
-testBounds.push(new BoundaryObj(17*elementSize, 5 *elementSize));
-testBounds.push(new BoundaryObj(14*elementSize, 6 *elementSize));
+testBounds.push(new BoundaryObj(17 * elementSize, 5 * elementSize));
+testBounds.push(new BoundaryObj(14 * elementSize, 6 * elementSize));
 
 // FUNCTIONS
 
 function move(e){
-    console.log("testBounds X: " + (testBounds[0].x + offset.x));
-    console.log("canvas center X: " + (cWidth / 2 + elementSize / 2 + 8));
     moving = true;
     lastPlayerDirection = e.key;
 }
@@ -140,15 +138,30 @@ function checkForCollision(bounds){
                 canMove = false;
             }
         } else if (lastPlayerDirection == "w"){
-
+            if (
+                (cHeight / 2 - elementSize * 1.5 + 8) <= (bounds[i].y + offset.y) &&
+                (cHeight / 2 + elementSize / 2) > (bounds[i].y + offset.y) &&
+                (cWidth / 2 + elementSize / 2 - elementSize * 2) < (bounds[i].x + offset.x) &&
+                (cWidth / 2 + elementSize / 2) > (bounds[i].x + offset.x))
+            {
+                canMove = false;
+            }
+        } else if (lastPlayerDirection == "s"){
+            if ((cHeight / 2 + elementSize / 2 + 8) > (bounds[i].y + offset.y) &&
+                (cHeight / 2 - elementSize * 1.5 + 8) < (bounds[i].y + offset.y) &&
+                (cWidth / 2 + elementSize / 2 - elementSize * 2) < (bounds[i].x + offset.x) &&
+                (cWidth / 2 + elementSize / 2) > (bounds[i].x + offset.x)
+            ){
+                canMove = false;
+            }
         }
     }
     
 }
 
 function redraw(){
-    //checkForCollision(boundaries);
-    checkForCollision(testBounds);
+    checkForCollision(boundaries);
+    //checkForCollision(testBounds);
     if (moving && canMove){
         switch (lastPlayerDirection){
             case 'w':
@@ -171,12 +184,12 @@ function redraw(){
     }
     basicMap.draw();
     player.draw();
-    //boundaries.forEach(boundary =>{
-    //    boundary.draw();
-    //});
-    testBounds.forEach(bound =>{
-        bound.draw();
-    })
+    boundaries.forEach(boundary =>{
+        boundary.draw();
+    });
+    //testBounds.forEach(bound =>{
+    //    bound.draw();
+    //})
     canMove = true;
 }
 
