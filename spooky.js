@@ -21,6 +21,7 @@ let moving = false;
 let lastPlayerDirection = "s";
 let playerSpeed = elementSize / 12;
 let spriteFrame = 0;
+let canMove = true;
 
 // GAME MECHANIC COMPONENTS
 let playing = true;
@@ -101,9 +102,15 @@ for (let i = 0; i < collisionArray.length; i++){
     }
 }
 
-// Function
+let testBounds = [];
+testBounds.push(new BoundaryObj(17*elementSize, 5 *elementSize));
+testBounds.push(new BoundaryObj(14*elementSize, 6 *elementSize));
+
+// FUNCTIONS
 
 function move(e){
+    console.log("testBounds X: " + (testBounds[0].x + offset.x));
+    console.log("canvas center X: " + (cWidth / 2 + elementSize / 2 + 8));
     moving = true;
     lastPlayerDirection = e.key;
 }
@@ -112,8 +119,37 @@ function stopMove(e){
     moving = false;
 }
 
+function checkForCollision(bounds){
+    for (let i = 0; i < bounds.length; i++){
+        if (lastPlayerDirection == "a"){
+            if(
+                (cWidth / 2 - elementSize / 2 - elementSize) <= (bounds[i].x + offset.x) &&
+                (cWidth / 2 + elementSize / 2) > (bounds[i].x + offset.x) &&
+                (cHeight / 2 - elementSize / 2 - elementSize) < (bounds[i].y + offset.y - 8) &&
+                (cHeight / 2 + elementSize / 2) > (bounds[i].y + offset.y)
+                ){
+                canMove = false;
+            }
+        } else if (lastPlayerDirection == "d"){
+            if(
+                (cWidth / 2 + elementSize / 2) >= (bounds[i].x + offset.x) &&
+                (cWidth / 2 - elementSize / 2 - elementSize) < (bounds[i].x + offset.x) &&
+                (cHeight / 2 - elementSize / 2 - elementSize) < (bounds[i].y + offset.y - 8) &&
+                (cHeight / 2 + elementSize / 2) > (bounds[i].y + offset.y)
+                ){
+                canMove = false;
+            }
+        } else if (lastPlayerDirection == "w"){
+
+        }
+    }
+    
+}
+
 function redraw(){
-    if (moving){
+    //checkForCollision(boundaries);
+    checkForCollision(testBounds);
+    if (moving && canMove){
         switch (lastPlayerDirection){
             case 'w':
                 offset.y += playerSpeed;
@@ -135,9 +171,13 @@ function redraw(){
     }
     basicMap.draw();
     player.draw();
-    boundaries.forEach(boundary =>{
-        boundary.draw();
+    //boundaries.forEach(boundary =>{
+    //    boundary.draw();
+    //});
+    testBounds.forEach(bound =>{
+        bound.draw();
     })
+    canMove = true;
 }
 
 // Event Listeners
