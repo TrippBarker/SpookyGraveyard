@@ -144,7 +144,7 @@ function checkForCollision(bounds){
             if (
                 (cHeight / 2 - elementSizeAndAHalf + 8) <= (bounds[i].y + offset.y) &&
                 (cHeight / 2 + halfElementSize) > (bounds[i].y + offset.y) &&
-                (cWidth / 2 - elementSize) < (bounds[i].x + offset.x) &&
+                (cWidth / 2 - elementSizeAndAHalf) < (bounds[i].x + offset.x) &&
                 (cWidth / 2 + halfElementSize) > (bounds[i].x + offset.x))
             {
                 canMove = false;
@@ -152,7 +152,7 @@ function checkForCollision(bounds){
         } else if (lastPlayerDirection == "s"){
             if ((cHeight / 2 + halfElementSize + 8) > (bounds[i].y + offset.y) &&
                 (cHeight / 2 - elementSizeAndAHalf + 8) < (bounds[i].y + offset.y) &&
-                (cWidth / 2 - elementSize) < (bounds[i].x + offset.x) &&
+                (cWidth / 2 - elementSizeAndAHalf) < (bounds[i].x + offset.x) &&
                 (cWidth / 2 + halfElementSize) > (bounds[i].x + offset.x)
             ){
                 canMove = false;
