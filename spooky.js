@@ -1,5 +1,5 @@
 
-// CANVAS CONPONENTS
+// =======================================CANVAS  CONPONENTS=======================================
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 const cWidth = 960;
@@ -16,18 +16,18 @@ c.fillStyle = 'white';
 c.fillRect(0, 0, canvas.width = cWidth, canvas.height = cHeight);
 
 
-// PLAYER COMPONENTS
+// =======================================PLAYER  COMPONENTS=======================================
 let moving = false;
 let lastPlayerDirection = "s";
 let playerSpeed = elementSize / 12;
 let spriteFrame = 0;
 let canMove = true;
 
-// GAME MECHANIC COMPONENTS
+// ====================================GAME MECHANIC COMPONENTS====================================
 let playing = true;
 let downKeys = [];
 
-// COLLISION COMPONENTS
+// ======================================COLLISION COMPONENTS======================================
 const boundaries = [];
 
 const collisionArray = [];
@@ -36,7 +36,7 @@ for (let i = 0; i < collisions.length; i+= 30){
     collisionArray.push(collisions.slice(i, i + 30));
 }
 
-// Asset Classes
+// =========================================ASSET  CLASSES=========================================
 
 class Map{
     constructor(mapImg){
@@ -70,6 +70,7 @@ class PlayerObj{
 
 }
 
+// Class For Creating Barriers Sprites Cannot Pass
 class BoundaryObj{
     constructor(x, y){
         this.x = x;
@@ -88,7 +89,7 @@ class BoundaryObj{
     }
 }
 
-// Object Creation
+// ========================================OBJECT  CREATION========================================
 
 let basicMap = new Map('./res/maps/basicMap.png');
 
@@ -106,7 +107,7 @@ let testBounds = [];
 testBounds.push(new BoundaryObj(17 * elementSize, 5 * elementSize));
 testBounds.push(new BoundaryObj(14 * elementSize, 6 * elementSize));
 
-// FUNCTIONS
+// ===========================================FUNCTIONS============================================
 
 function move(e){
     moving = true;
@@ -193,7 +194,7 @@ function redraw(){
     canMove = true;
 }
 
-// Event Listeners
+// ========================================EVENT  LISTENERS========================================
 window.addEventListener('keydown', move);
 window.addEventListener('keyup', stopMove);
 window.setInterval(redraw, 35);
