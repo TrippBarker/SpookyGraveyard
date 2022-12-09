@@ -67,9 +67,9 @@ class BoundaryObj{
 
 // Object Creation
 
-let basicMap = new Map('../res/maps/basicMap.png');
+let basicMap = new Map('./res/maps/basicMap.png');
 
-let player = new PlayerObj('../res/sprites/ghostie/ghostie.png');
+let player = new PlayerObj('./res/sprites/ghostie/ghostie.png');
 
 // Function
 
