@@ -6,7 +6,6 @@ const cWidth = 960;
 const cHeight = 720;
 
 const elementSize = 96;
-const pixelSize = 8;
 const halfElementSize = elementSize / 2;
 const elementSizeAndAHalf = elementSize + halfElementSize;
 
@@ -125,9 +124,9 @@ function checkForCollision(bounds){
     for (let i = 0; i < bounds.length; i++){
         if (lastPlayerDirection == "a"){
             if(
-                (cWidth / 2 - elementSizeAndAHalf) <= (bounds[i].x + offset.x) &&
+                (cWidth / 2 - elementSize / 2 - elementSize) <= (bounds[i].x + offset.x) &&
                 (cWidth / 2 + halfElementSize) > (bounds[i].x + offset.x) &&
-                (cHeight / 2 - elementSizeAndAHalf) < (bounds[i].y + offset.y - 8) &&
+                (cHeight / 2 - elementSize / 2 - elementSize) < (bounds[i].y + offset.y - 8) &&
                 (cHeight / 2 + halfElementSize) > (bounds[i].y + offset.y)
                 ){
                 canMove = false;
@@ -135,25 +134,25 @@ function checkForCollision(bounds){
         } else if (lastPlayerDirection == "d"){
             if(
                 (cWidth / 2 + halfElementSize) >= (bounds[i].x + offset.x) &&
-                (cWidth / 2 - elementSizeAndAHalf) < (bounds[i].x + offset.x) &&
-                (cHeight / 2 - elementSizeAndAHalf) < (bounds[i].y + offset.y - 8) &&
+                (cWidth / 2 - elementSize / 2 - elementSize) < (bounds[i].x + offset.x) &&
+                (cHeight / 2 - elementSize / 2 - elementSize) < (bounds[i].y + offset.y - 8) &&
                 (cHeight / 2 + halfElementSize) > (bounds[i].y + offset.y)
                 ){
                 canMove = false;
             }
         } else if (lastPlayerDirection == "w"){
             if (
-                (cHeight / 2 - elementSizeAndAHalf + pixelSize) <= (bounds[i].y + offset.y) &&
+                (cHeight / 2 - elementSizeAndAHalf + 8) <= (bounds[i].y + offset.y) &&
                 (cHeight / 2 + halfElementSize) > (bounds[i].y + offset.y) &&
-                (cWidth / 2 + elementSizeAndAHalf * 2) < (bounds[i].x + offset.x) &&
+                (cWidth / 2 - elementSize) < (bounds[i].x + offset.x) &&
                 (cWidth / 2 + halfElementSize) > (bounds[i].x + offset.x))
             {
                 canMove = false;
             }
         } else if (lastPlayerDirection == "s"){
-            if ((cHeight / 2 + halfElementSize + pixelSize) > (bounds[i].y + offset.y) &&
-                (cHeight / 2 - elementSizeAndAHalf + pixelSize) < (bounds[i].y + offset.y) &&
-                (cWidth / 2 + elementSizeAndAHalf * 2) < (bounds[i].x + offset.x) &&
+            if ((cHeight / 2 + halfElementSize + 8) > (bounds[i].y + offset.y) &&
+                (cHeight / 2 - elementSizeAndAHalf + 8) < (bounds[i].y + offset.y) &&
+                (cWidth / 2 - elementSize) < (bounds[i].x + offset.x) &&
                 (cWidth / 2 + halfElementSize) > (bounds[i].x + offset.x)
             ){
                 canMove = false;
