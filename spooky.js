@@ -22,9 +22,18 @@ let lastPlayerDirection = "s";
 let playerSpeed = elementSize / 12;
 let spriteFrame = 0;
 
-
 // GAME MECHANIC COMPONENTS
 let playing = true;
+let downKeys = [];
+
+// COLLISION COMPONENTS
+const boundaries = [];
+
+const collisionArray = [];
+
+for (let i = 0; i < collisions.length; i+= 30){
+    collisionArray.push(collisions.slice(i, i + 30));
+}
 
 // Asset Classes
 
@@ -55,14 +64,27 @@ class PlayerObj{
             cWidth / 2 - (elementSize/2),
             cHeight / 2 - (elementSize/2),
             elementSize,
-            elementSize
-            );
+            elementSize);
     }
 
 }
 
 class BoundaryObj{
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+        this.width = elementSize;
+        this.height = elementSize;
+    }
 
+    draw(){
+        c.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        c.fillRect(
+            this.x + offset.x, 
+            this.y + offset.y, 
+            this.width, 
+            this.height);
+    }
 }
 
 // Object Creation
@@ -70,6 +92,14 @@ class BoundaryObj{
 let basicMap = new Map('./res/maps/basicMap.png');
 
 let player = new PlayerObj('./res/sprites/ghostie/ghostie.png');
+
+for (let i = 0; i < collisionArray.length; i++){
+    for (let j = 0; j < collisionArray[i].length; j++){
+        if (collisionArray[i][j]  == 1){
+            boundaries.push(new BoundaryObj(j * elementSize, i * elementSize));
+        }
+    }
+}
 
 // Function
 
@@ -105,10 +135,12 @@ function redraw(){
     }
     basicMap.draw();
     player.draw();
+    boundaries.forEach(boundary =>{
+        boundary.draw();
+    })
 }
 
 // Event Listeners
-
 window.addEventListener('keydown', move);
 window.addEventListener('keyup', stopMove);
 window.setInterval(redraw, 35);
