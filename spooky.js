@@ -184,9 +184,9 @@ function redraw(){
     }
     basicMap.draw();
     player.draw();
-    boundaries.forEach(boundary =>{
-        boundary.draw();
-    });
+    //boundaries.forEach(boundary =>{
+    //    boundary.draw();
+    //});
     //testBounds.forEach(bound =>{
     //    bound.draw();
     //})
