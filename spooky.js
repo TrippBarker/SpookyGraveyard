@@ -34,8 +34,8 @@ const boundaries = [];
 
 const collisionArray = [];
 
-for (let i = 0; i < collisions.length; i+= 30){
-    collisionArray.push(collisions.slice(i, i + 30));
+for (let i = 0; i < collisions24.length; i+= 30){
+    collisionArray.push(collisions24.slice(i, i + 30));
 }
 
 // =========================================ASSET  CLASSES=========================================
@@ -93,9 +93,9 @@ class BoundaryObj{
 
 // ========================================OBJECT  CREATION========================================
 
-let basicMap = new Map('./res/maps/basicMap.png');
+let basicMap = new Map('./res/maps/basicMap24.png');
 
-let player = new PlayerObj('./res/sprites/ghostie/ghostie.png');
+let player = new PlayerObj('./res/sprites/ghostie/ghostie24.png');
 
 for (let i = 0; i < collisionArray.length; i++){
     for (let j = 0; j < collisionArray[i].length; j++){
@@ -142,7 +142,7 @@ function checkForCollision(bounds){
             }
         } else if (lastPlayerDirection == "w"){
             if (
-                (cHeight / 2 - elementSizeAndAHalf + 8) <= (bounds[i].y + offset.y) &&
+                (cHeight / 2 - elementSizeAndAHalf) <= (bounds[i].y + offset.y) &&
                 (cHeight / 2 + halfElementSize) > (bounds[i].y + offset.y) &&
                 (cWidth / 2 - elementSizeAndAHalf) < (bounds[i].x + offset.x) &&
                 (cWidth / 2 + halfElementSize) > (bounds[i].x + offset.x))
@@ -187,9 +187,9 @@ function redraw(){
     }
     basicMap.draw();
     player.draw();
-    //boundaries.forEach(boundary =>{
-    //    boundary.draw();
-    //});
+    boundaries.forEach(boundary =>{
+        boundary.draw();
+    });
     //testBounds.forEach(bound =>{
     //    bound.draw();
     //})
