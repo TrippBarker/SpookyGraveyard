@@ -25,6 +25,15 @@ let playerSpeed = elementSize / 12;
 let spriteFrame = 0;
 let canMove = true;
 
+// ======================================TEENAGER  COMPONENTS======================================
+let teenagerMoving = false;
+let lastTeenagerDirection = "s";
+let teenagerSpeed = elementSize / 12;
+let teenagerFrame = 0;
+let teenagerCanMove = true;
+let teenagerMoveCounter = 0;
+let teenagerPossessed = false;
+
 // ====================================GAME MECHANIC COMPONENTS====================================
 let playing = true;
 let downKeys = [];
@@ -72,6 +81,29 @@ class PlayerObj{
 
 }
 
+class EnemyObj{
+    constructor(enemyImg, xPos, yPos){
+        this.image = new Image();
+        this.image.src = enemyImg;
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
+    draw(){
+        c.drawImage(
+            this.image,
+            elementSize * spriteFrame,
+            0,
+            elementSize,
+            elementSize, 
+            this.xPos + offset.x,
+            this.yPos + offset.y,
+            elementSize,
+            elementSize
+        );
+    }
+}
+
 // Class For Creating Barriers Sprites Cannot Pass
 class BoundaryObj{
     constructor(x, y){
@@ -97,6 +129,9 @@ let basicMap = new Map('./res/maps/basicMap24.png');
 
 let player = new PlayerObj('./res/sprites/ghostie/ghostie24.png');
 
+let teenagerCol = new BoundaryObj(20 * elementSize, 10 * elementSize);
+let teenager = new EnemyObj('./res/sprites/teenager1/teenager1.png', teenagerCol.x, teenagerCol.y);
+
 for (let i = 0; i < collisionArray.length; i++){
     for (let j = 0; j < collisionArray[i].length; j++){
         if (collisionArray[i][j]  == 1){
@@ -105,11 +140,22 @@ for (let i = 0; i < collisionArray.length; i++){
     }
 }
 
+
+boundaries.push(teenagerCol);
+
 let testBounds = [];
 testBounds.push(new BoundaryObj(17 * elementSize, 5 * elementSize));
 testBounds.push(new BoundaryObj(14 * elementSize, 6 * elementSize));
 
 // ===========================================FUNCTIONS============================================
+
+function keyPressed(e){
+    if ("wasd".includes(e.key)){
+        move(e);
+    } else if (e.key == " "){
+        action();
+    }
+}
 
 function move(e){
     moving = true;
@@ -118,6 +164,12 @@ function move(e){
 
 function stopMove(e){
     moving = false;
+}
+
+function action(){
+    console.log(Math.abs(offset.x) + cWidth / 2 - elementSize / 2);
+    if (lastPlayerDirection == "w"){
+    }
 }
 
 function checkForCollision(bounds){
@@ -162,6 +214,41 @@ function checkForCollision(bounds){
     
 }
 
+function teenagerCollision(){
+    if (lastTeenagerDirection == "w"){
+        if(teenager.yPos < Math.abs(offset.x) + cWidth / 2 - elementSize / 2){
+            teenagerCanMove = true;
+        }
+    }
+}
+
+function teenagerMove(){
+    teenagerCollision();
+    if (teenagerMoveCounter < 20 && teenagerCanMove){
+        teenagerMoveCounter++;
+        lastTeenagerDirection = "w";
+        teenager.xPos += teenagerSpeed;
+        teenagerCol.x += teenagerSpeed;
+    } else if (teenagerMoveCounter < 40 && teenagerCanMove){
+        teenagerMoveCounter++;
+        lastTeenagerDirection = "d"
+        teenager.yPos += teenagerSpeed;
+        teenagerCol.y += teenagerSpeed;
+    } else if (teenagerMoveCounter < 60 && teenagerCanMove){
+        teenagerMoveCounter++;
+        teenager.xPos -= teenagerSpeed;
+        teenagerCol.x -= teenagerSpeed;
+    } else if (teenagerCanMove){
+        teenagerMoveCounter++;
+        teenager.yPos -= teenagerSpeed;
+        teenagerCol.y -= teenagerSpeed;
+        if (teenagerMoveCounter == 80){
+            teenagerMoveCounter = 0;
+        }
+    }
+    teenagerCanMove = true;
+}
+
 function redraw(){
     checkForCollision(boundaries);
     //checkForCollision(testBounds);
@@ -187,16 +274,18 @@ function redraw(){
     }
     basicMap.draw();
     player.draw();
-    boundaries.forEach(boundary =>{
-        boundary.draw();
-    });
+    teenager.draw();
+    //boundaries.forEach(boundary =>{
+    //    boundary.draw();
+    //a});
     //testBounds.forEach(bound =>{
     //    bound.draw();
     //})
     canMove = true;
+    teenagerMove();
 }
 
 // ========================================EVENT  LISTENERS========================================
-window.addEventListener('keydown', move);
+window.addEventListener('keydown', keyPressed);
 window.addEventListener('keyup', stopMove);
 window.setInterval(redraw, 35);
